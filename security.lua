@@ -238,7 +238,9 @@ term.setTextColor(colors.red)
 center(2, "SertexSecurity")
 while true do
 term.setCursorPos(2, 20)
+term.setTextColor(colors.blue)
 write("Insert Password: ")
+term.setTextColor(colors.green)
 local input = read("*")
 
 local file = fs.open(".sertexsecurity/.password", "r")
@@ -253,6 +255,7 @@ if crypt == file.readLine() then
   shell.run("shell")
 else
   print""
+  term.setTextColor(colors.red)
   textutils.slowPrint(" Wrong Password!")
   sleep(2)
 end
