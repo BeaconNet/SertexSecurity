@@ -194,6 +194,9 @@ elseif fs.exists("/startup") and fs.exists("/startup.bak")
   fs.rename("startup", "startup.bak")
 end
 
+fs.makeDir(".sertexsecurity")
+
+
 while true do
 term.clear()
 term.setCursorPos(1,1)
@@ -217,3 +220,12 @@ end
 
 local d = http.get("https://raw.githubusercontent.com/Sertex-Team/SertexSecurity/master/security.lua")
 
+local startup = fs.open("/startup", "w")
+startup.write(d.readAll())
+startup.close()
+sleep(2)
+term.clear()
+term.setCursorPos(1,1)
+textutils.slowPrint("Rebooting...")
+sleep(1)
+os.reboot()
