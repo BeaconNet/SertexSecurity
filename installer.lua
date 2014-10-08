@@ -187,8 +187,6 @@ end
 
 --END SHA256
 
---https://raw.githubusercontent.com/Sertex-Team/SertexSecurity/master/security.lua
-
 if fs.exists("/startup") then
   fs.rename("startup", "startup.bak")
 elseif fs.exists("/startup") and fs.exists("/startup.bak")
@@ -196,7 +194,26 @@ elseif fs.exists("/startup") and fs.exists("/startup.bak")
   fs.rename("startup", "startup.bak")
 end
 
+while true do
 term.clear()
 term.setCursorPos(1,1)
 print("SertexSecurity SETUP")
 write("Insert Password: )
+local pw1 = read("*")
+write("Repeat: ")
+local pw2 = read("*")
+
+if pw1 == pw2 then
+  local file = fs.open(".sertexsecurity/.password", "w")
+  local crypt = sha256(pw2)
+  file.write(crypt)
+  break
+else
+  printError("Wrong password")
+  sleep(2)
+end
+end
+
+
+local d = http.get("https://raw.githubusercontent.com/Sertex-Team/SertexSecurity/master/security.lua")
+
