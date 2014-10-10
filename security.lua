@@ -1,9 +1,5 @@
 os.pullEvent = os.pullEventRaw
 
-if not term.isColour() then
-	error("Not advanced")
-end
-
 --SHA256
 local MOD = 2^32
 local MODM = MOD-1
