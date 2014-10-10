@@ -188,10 +188,10 @@ end
 --END SHA256
 
 if fs.exists("/startup") then
-  fs.rename("startup", "startup.bak")
+  fs.move("/startup", "/startup.bak")
 elseif fs.exists("/startup") and fs.exists("/startup.bak") then
   fs.delete("startup.bak")
-  fs.rename("startup", "startup.bak")
+  fs.move("startup", "startup.bak")
 end
 
 fs.makeDir(".sertexsecurity")
