@@ -242,7 +242,13 @@ if not fs.exists(".sertexsecurity/.password") then
   error("Password doesn't exists")
 end
 
+reset()
 
+function reset()
+	main()
+end
+
+function main()
 term.setBackgroundColor( bg )
 term.clear()
 term.setCursorPos(1,1)
@@ -251,7 +257,6 @@ term.setTextColor( text )
 center(2, "SertexSecurity")
 term.setCursorPos(2, 20)
 term.setTextColor( pass )
-while true do
 write("Insert Password: ")
 term.setTextColor( inputpw )
 local input = read("*")
@@ -263,13 +268,16 @@ local crypt = sha256(input)
 
 if crypt == file.readLine() then
   sleep(0.1)
+  term.setBackgroundColor(colors.black)
   term.clear()
   term.setCursorPos(1,1)
+  term.setTextColor(colors.white)
   shell.run("shell")
 else
   print""
   term.setTextColor( text )
   textutils.slowPrint(" Wrong Password!")
   sleep(2)
+  reset()
 end
 end
