@@ -225,7 +225,8 @@ function centerInput( text )
         input = read("*")
 end
 
-if colors then
+local bg, text, pass, inputpw
+if term.isColour() then
   bg = colors.white
   text = colors.red
   pass = colors.blue
