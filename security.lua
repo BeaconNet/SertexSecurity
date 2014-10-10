@@ -225,18 +225,16 @@ function centerInput( text )
         input = read("*")
 end
 
-local bg, text, pass, inputpw
-if term.isColour() then
-  bg = colors.white
-  text = colors.red
-  pass = colors.blue
-  inputpw = colors.green
-else
-  bg = colors.black
-  text = colors.white
-  pass = colors.white
-  inputpw = colors.white
-end
+--local bg, text, pass, inputpw
+--if term.isColour() then
+ -- bg = colors.white
+--  text = colors.red
+ -- pass = colors.blue
+--  inputpw = colors.green
+--else
+--  text = colors.white
+--  inputpw = colors.white
+--end
 
 
 if not fs.exists(".sertexsecurity/.password") then
@@ -248,16 +246,16 @@ function reset()
 end
 
 function main()
-term.setBackgroundColor( bg )
+term.setBackgroundColor( colors.white )
 term.clear()
 term.setCursorPos(1,1)
-term.setTextColor( text )
+term.setTextColor( colors.red )
 
 center(2, "SertexSecurity")
 term.setCursorPos(2, 20)
-term.setTextColor( pass )
+term.setTextColor( colors.blue )
 write("Insert Password: ")
-term.setTextColor( inputpw )
+term.setTextColor( colors.green )
 local input = read("*")
 
 local file = fs.open(".sertexsecurity/.password", "r")
@@ -274,7 +272,7 @@ if crypt == file.readLine() then
   shell.run("shell")
 else
   print""
-  term.setTextColor( text )
+  term.setTextColor( colors.red )
   textutils.slowPrint(" Wrong Password!")
   sleep(2)
   reset()
