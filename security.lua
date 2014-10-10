@@ -256,7 +256,7 @@ term.setCursorPos(1,1)
 term.setTextColor( colors.red )
 
 center(2, "SertexSecurity")
-term.setCursorPos(2, 10)
+term.setCursorPos(2, 8)
 term.setTextColor( colors.blue )
 write("Insert Password: ")
 term.setTextColor( colors.green )
