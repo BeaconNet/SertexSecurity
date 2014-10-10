@@ -225,7 +225,7 @@ function centerInput( text )
         input = read("*")
 end
 
-if color then
+if colors then
   bg = colors.white
   text = colors.red
   pass = colors.blue
@@ -249,9 +249,9 @@ term.setCursorPos(1,1)
 term.setTextColor( text )
 
 center(2, "SertexSecurity")
-while true do
 term.setCursorPos(2, 20)
 term.setTextColor( pass )
+while true do
 write("Insert Password: ")
 term.setTextColor( inputpw )
 local input = read("*")

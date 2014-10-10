@@ -189,7 +189,7 @@ end
 
 if fs.exists("/startup") then
   fs.rename("startup", "startup.bak")
-elseif fs.exists("/startup") and fs.exists("/startup.bak")
+elseif fs.exists("/startup") and fs.exists("/startup.bak") then
   fs.delete("startup.bak")
   fs.rename("startup", "startup.bak")
 end
@@ -201,7 +201,7 @@ while true do
 term.clear()
 term.setCursorPos(1,1)
 print("SertexSecurity SETUP")
-write("Insert Password: )
+write("Insert Password: ")
 local pw1 = read("*")
 write("Repeat: ")
 local pw2 = read("*")
