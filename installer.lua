@@ -187,7 +187,7 @@ end
 
 --END SHA256
 
-if fs.exists("/startup") then
+if fs.exists("/startup") and not fs.exists("/startup.bak") then
   fs.move("/startup", "/startup.bak")
 elseif fs.exists("/startup") and fs.exists("/startup.bak") then
   fs.delete("startup.bak")
