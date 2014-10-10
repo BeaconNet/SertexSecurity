@@ -242,8 +242,6 @@ if not fs.exists(".sertexsecurity/.password") then
   error("Password doesn't exists")
 end
 
-reset()
-
 function reset()
 	main()
 end
@@ -281,3 +279,8 @@ else
   reset()
 end
 end
+
+
+reset()
+
+
