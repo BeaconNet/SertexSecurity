@@ -1,6 +1,6 @@
 os.pullEvent = os.pullEventRaw
 
-if advanced then
+if not term.isColour() then
 	error("Not advanced")
 end
 
