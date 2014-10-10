@@ -196,14 +196,34 @@ end
 
 fs.makeDir(".sertexsecurity")
 
+local bg, text, pass, inputpw, wrong
+if term.isColour() then
+  bg = colors.white
+  text = colors.red
+  pass = colors.blue
+  inputpw = colors.green
+  wrong = colors.red
+else
+  bg = colors.black
+  text = colors.white
+  pass = colors.white
+  inputpw = colors.white
+  wrong = colors.white
+end
 
 while true do
+term.setBackgroundColor( bg )
 term.clear()
 term.setCursorPos(1,1)
+term.setTextColor( text )
 print("SertexSecurity SETUP")
+term.setTextColor( pass )
 write("Insert Password: ")
+term.setTextColor( inputpw )
 local pw1 = read("*")
+term.setTextColor( pass )
 write("Repeat: ")
+term.setTextColor( inputpw )
 local pw2 = read("*")
 
 if pw1 == pw2 then
@@ -226,6 +246,7 @@ startup.close()
 sleep(2)
 term.clear()
 term.setCursorPos(1,1)
+term.setTextColor( text )
 textutils.slowPrint("Rebooting...")
 sleep(1)
 os.reboot()
