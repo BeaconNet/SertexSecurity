@@ -265,6 +265,12 @@ function lock()
 		end
 	end
 end
+function finishSetDoor()
+	sideConfig.close()
+	print""
+	print("Loading...")
+	local setDoorSideConfig = false
+end
 
 function door()
 
@@ -316,23 +322,30 @@ function door()
 			
 			if key == 2 then
 				sideConfig.write("top")
+				finishSetDoor()
+				break
 			elseif key == 3 then
 				sideConfig.write("bottom")
+				finishSetDoor()
+				break
 			elseif key == 4 then
 				sideConfig.write("front")
+				finishSetDoor()
+				break
 			elseif key == 5 then
 				sideConfig.write("back")
+				finishSetDoor()
+				break
 			elseif key == 6 then
 				sideConfig.write("right")
+				finishSetDoor()
+				break
 			elseif key == 7 then
 				sideConfig.write("left")
+				finishSetDoor()
+				break
 			end
 			
-			sideConfig.close()
-			print""
-			print("Loading...")
-			local setDoorSideConfig = false
-			break
 		end
 
 	modeConfig = fs.open(".sertexsecurity/mode.cfg", "w")
