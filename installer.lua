@@ -187,15 +187,6 @@ end
 
 --END SHA256
 
-if fs.exists("/startup") and not fs.exists("/startup.bak") then
-  fs.move("/startup", "/startup.bak")
-elseif fs.exists("/startup") and fs.exists("/startup.bak") then
-  fs.delete("startup.bak")
-  fs.move("startup", "startup.bak")
-end
-
-fs.makeDir(".sertexsecurity")
-
 local bg, text, pass, inputpw, wrong
 if term.isColour() then
   bg = colors.white
@@ -211,42 +202,183 @@ else
   wrong = colors.white
 end
 
-while true do
-term.setBackgroundColor( bg )
-term.clear()
-term.setCursorPos(1,1)
-term.setTextColor( text )
-print("SertexSecurity SETUP")
-term.setTextColor( pass )
-write("Insert Password: ")
-term.setTextColor( inputpw )
-local pw1 = read("*")
-term.setTextColor( pass )
-write("Repeat: ")
-term.setTextColor( inputpw )
-local pw2 = read("*")
+function finish()
+	local d = http.get("https://raw.githubusercontent.com/Sertex-Team/SertexSecurity/master/security.lua")
 
-if pw1 == pw2 then
-  local file = fs.open(".sertexsecurity/.password", "w")
-  local crypt = sha256(pw2)
-  file.write(crypt)
-  break
-else
-  printError("Wrong password")
-  sleep(2)
-end
+	local startup = fs.open("/startup", "w")
+	startup.write(d.readAll())
+	startup.close()
+	sleep(2)
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setTextColor( text )
+	textutils.slowPrint("Rebooting...")
+	sleep(1)
+	os.reboot()
 end
 
+function lock()
+	while true do
+		term.setBackgroundColor( bg )
+		term.clear()
+		term.setCursorPos(1,1)
+		term.setTextColor( text )
+		print("SertexSecurity SETUP")
+		term.setTextColor( pass)
+		write("Username: ")
+		term.setTextColor( inputpw )
+		local username = read()
+		term.setTextColor( pass )
+		write("Insert Password: ")
+		term.setTextColor( inputpw )
+		local pw1 = read("*")
+		term.setTextColor( pass )
+		write("Repeat: ")
+		term.setTextColor( inputpw )
+		local pw2 = read("*")
 
-local d = http.get("https://raw.githubusercontent.com/Sertex-Team/SertexSecurity/master/security.lua")
+		if pw1 == pw2 then
+			local file = fs.open(".sertexsecurity/udb/"..username, "w")
+			local crypt = sha256(pw2)
+			file.write(crypt)
+			modeConfig = fs.open(".sertexsecurity/mode.cfg", "w")
+			modeConfig.write("lock")
+			modeConfig.close()
+			print""
+			print("Do you want to make another user?")
+			print("Y/N")
+			while true do
+				id, key = os.pullEvent("key")
+				if key == 21 then
+					sleep(0.1)
+					lock()
+					break
+				elseif key == 49 then
+					print("Loading...")
+					finish()
+					break
+				end
+			end
+		else
+			printError("Wrong password")
+			sleep(2)
+		end
+	end
+end
 
-local startup = fs.open("/startup", "w")
-startup.write(d.readAll())
-startup.close()
-sleep(2)
-term.clear()
-term.setCursorPos(1,1)
-term.setTextColor( text )
-textutils.slowPrint("Rebooting...")
-sleep(1)
-os.reboot()
+function door()
+
+	while true do
+		term.setBackgroundColor( bg )
+		term.clear()
+		term.setCursorPos(1,1)
+		term.setTextColor( text )
+	
+		print("SertexSecurity SETUP")
+		term.setTextColor( pass )
+		write("Insert Password: ")
+		term.setTextColor( inputpw )
+		local pw1 = read("*")
+		term.setTextColor( pass )
+		write("Repeat: ")
+		term.setTextColor( inputpw )
+		local pw2 = read("*")
+	
+		if pw1 == pw2 then
+			local file = fs.open(".sertexsecurity/.password", "w")
+			local crypt = sha256(pw2)
+			file.write(crypt)
+		else
+			printError("Wrong password")
+			sleep(2)
+			door()
+		end
+	
+		term.setTextColor( pass )
+	
+		print("Door Side")
+	
+		term.setTextColor(inputpw)
+		print""
+		print("[1] Top")
+		print("[2] Bottom")
+		print("[3] Front")
+		print("[4] Back")
+		print("[5] Right")
+		print("[6] Left")
+		
+		sideConfig = fs.open(".sertexsecurity/doorSide.cfg", "w")
+		local setDoorSideConfig = true
+		while setDoorSideConfig do
+	
+			local id, key = os.pullEvent("key")
+			
+			
+			if key == 2 then
+				sideConfig.write("top")
+			elseif key == 3 then
+				sideConfig.write("bottom")
+			elseif key == 4 then
+				sideConfig.write("front")
+			elseif key == 5 then
+				sideConfig.write("back")
+			elseif key == 6 then
+				sideConfig.write("right")
+			elseif key == 7 then
+				sideConfig.write("left")
+			end
+			
+			sideConfig.close()
+			print""
+			print("Loading...")
+			local setDoorSideConfig = false
+			break
+		end
+
+	modeConfig = fs.open(".sertexsecurity/mode.cfg", "w")
+	modeConfig.write("door")
+	modeConfig.close()
+	finish()
+	break
+	end
+end
+
+function main()
+
+	while true do
+		term.setBackgroundColor(bg)
+		term.clear()
+		term.setCursorPos(1,1)
+		term.setTextColor( text )
+		print("SertexSecurity SETUP")
+		print("Choose the option")
+		print("[1] Lock Computer")
+		print("[2] Lock Door")
+		local id, key = os.pullEvent("key")
+			if key == 2 then
+				sleep(0.1)
+				lock()
+				break
+			elseif key == 3 then
+				sleep(0.1)
+				door()
+				break
+			end
+		end
+end
+
+if fs.exists("/startup") and not fs.exists("/startup.bak") then
+  fs.move("/startup", "/startup.bak")
+elseif fs.exists("/startup") and fs.exists("/startup.bak") then
+  fs.delete("startup.bak")
+  fs.move("startup", "startup.bak")
+end
+
+if fs.exists(".sertexsecurity") then
+		fs.delete(".sertexsecurity")
+end
+
+fs.makeDir(".sertexsecurity")
+fs.makeDir(".sertexsecurity/udb")
+
+main()

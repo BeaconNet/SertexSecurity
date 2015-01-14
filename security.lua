@@ -1,3 +1,4 @@
+oldPullEvent = os.pullEvent
 os.pullEvent = os.pullEventRaw
 
 --SHA256
@@ -199,8 +200,7 @@ function right(y, text )
 end
 
 function left(y, text) --DON NOT USE!
-	w, h = term.getSize()
-	term.setCursorPos(y, w - #text)
+	term.setCursorPos(1, y)
 	write( text )
 end
 
@@ -241,49 +241,135 @@ else
 end
 
 
-if not fs.exists(".sertexsecurity/.password") then
+if not fs.exists(".sertexsecurity") then
   error("Password doesn't exists")
+	return
 end
 
-function reset()
-	main()
+function lock()
+	shell.setAlias("lock", "startup")
+	term.setBackgroundColor( bg )
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setTextColor( text )
+
+	center(2, "SertexSecurity 2.0")
+	term.setCursorPos(1, 7)
+	term.setTextColor( pass )
+	write(" Insert Username: ")
+	term.setTextColor( inputpw )
+	local username = read()
+	
+	if username == ".update" then
+		shell.run("pastebin run Qcw6bZrA")
+	end
+	
+	if not fs.exists(".sertexsecurity/udb/"..username) then
+		print("Unknkow Username")
+		sleep(1.5)
+		lock()
+	end
+	
+	term.setTextColor( pass )
+	write(" Insert Password: ")
+	term.setTextColor( inputpw )
+	local input = read("*")
+
+	local file = fs.open(".sertexsecurity/udb/"..username, "r")
+
+	local crypt = sha256(input)
+
+
+	if crypt == file.readLine() then
+		sleep(0.1)
+		if fs.exists(".sertexsecurity/autorun") then
+			term.setBackgroundColor(colors.black)
+			term.setTextColor(colors.white)
+			term.clear()
+			term.setCursorPos(1,1)
+			st = fs.open(".sertexsecurity/autorun", "r")
+			startup = st.readLine()
+			st.close()
+			
+			shell.run(startup)
+		else
+			term.setBackgroundColor(colors.black)
+			term.clear()
+			term.setCursorPos(1,1)
+			term.setTextColor(colors.white)
+			shell.run("rom/programs/shell")
+		end
+	else
+		print""
+		term.setTextColor( wrong )
+		textutils.slowPrint(" Wrong Password!")
+		sleep(2)
+		lock()
+	end
+	
+end
+
+function door()
+	term.setBackgroundColor( bg )
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setTextColor( text )
+
+	center(2, "SertexSecurity 2.0")
+	term.setCursorPos(2, 8)
+
+	
+	term.setTextColor( pass )
+	write("Insert Password: ")
+	term.setTextColor( inputpw )
+	local input = read("*")
+	
+	if input == ".update" then
+		shell.run("pastebin run Qcw6bZrA")
+		return
+	end
+
+	local file = fs.open(".sertexsecurity/.password", "r")
+
+	local crypt = sha256(input)
+
+
+	if crypt == file.readLine() then
+		sleep(0.1)
+		print(" Password Accepted")
+		side = fs.open(".sertexsecurity/doorSide.cfg", "r")
+		doorSide = side.readLine()
+		side.close()
+		
+		rs.setOutput(doorSide, true)
+		sleep(2.5)
+		rs.setOutput(doorSide, false)
+		door()
+	
+	else
+		print""
+		term.setTextColor( wrong )
+		textutils.slowPrint(" Wrong Password!")
+		sleep(2)
+		door()
+	end
 end
 
 function main()
-term.setBackgroundColor( bg )
-term.clear()
-term.setCursorPos(1,1)
-term.setTextColor( text )
-
-center(2, "SertexSecurity")
-term.setCursorPos(2, 8)
-term.setTextColor( pass )
-write("Insert Password: ")
-term.setTextColor( inputpw )
-local input = read("*")
-
-local file = fs.open(".sertexsecurity/.password", "r")
-
-local crypt = sha256(input)
-
-
-if crypt == file.readLine() then
-  sleep(0.1)
-  term.setBackgroundColor(colors.black)
-  term.clear()
-  term.setCursorPos(1,1)
-  term.setTextColor(colors.white)
-  shell.run("shell")
-else
-  print""
-  term.setTextColor( wrong )
-  textutils.slowPrint(" Wrong Password!")
-  sleep(2)
-  reset()
-end
+	f = fs.open(".sertexsecurity/mode.cfg", "r")
+	local mode = f.readLine()
+	f.close()
+	
+	if mode == "lock" then
+		lock()
+	elseif mode == "door" then
+		door()
+	else
+		print("Error on loading SertexSecurity 2.0")
+		return
+	end
 end
 
 
-reset()
 
-
+main()
