@@ -260,29 +260,6 @@ function lock()
 	term.setTextColor( inputpw )
 	local username = read()
 	
-	if username == ".update" then
-		while true do
-			write(" Insert Username: ")
-			local usernameUpdate = read()
-			write(" Insert Password: ")
-			local passwordUpdate = read("*")
-		
-			if fs.exists(".sertexsecurity/udb/"..usernameUpdate) then
-				pw = fs.open(".sertexsecurity/udb/"..usernameUpdate)
-				if sha256(passwordUpdate) == pw.readLine() then
-					pw.close()
-					shell.run("pastebin run Qcw6bZrA")
-				else
-					print(" Wrong Password!")
-					sleep(1.5)
-				end
-			else
-				print(" Unknown Username!")
-				sleep(1.5)
-			end
-		end
-	end
-	
 	if not fs.exists(".sertexsecurity/udb/"..username) then
 		print("Unknkow Username")
 		sleep(1.5)
