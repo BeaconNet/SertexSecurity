@@ -296,6 +296,9 @@ function lock()
 		else
 			term.setBackgroundColor(colors.black)
 			term.clear()
+			if os.getComputerLabel() then
+				print(" Warning: Found Label")
+			end
 			term.setCursorPos(1,1)
 			term.setTextColor(colors.white)
 			shell.run("rom/programs/shell")
@@ -341,6 +344,9 @@ function door()
 		side = fs.open(".sertexsecurity/doorSide.cfg", "r")
 		doorSide = side.readLine()
 		side.close()
+		if os.getComputerLabel() then
+			print(" Warning: Found Label")
+		end
 		
 		rs.setOutput(doorSide, true)
 		sleep(2.5)
