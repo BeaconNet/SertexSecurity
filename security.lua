@@ -363,6 +363,15 @@ function door()
 end
 
 function main()
+	id = fs.open(".sertexsecurity/id.cfg", "r")
+	computerID = id.readLine()
+	id.close()
+	
+	if not os.getComputerID() == computerID then
+		print("WARNING: Computer ID isn't correct!")
+		shell.run("rom/programs/shell")
+	end
+
 	f = fs.open(".sertexsecurity/mode.cfg", "r")
 	local mode = f.readLine()
 	f.close()

@@ -203,6 +203,10 @@ else
 end
 
 function finish()
+	id = fs.open(".sertexsecurity/id.cfg", "w")
+	id.write(os.getComputerID())
+	id.close()
+	
 	local d = http.get("https://raw.githubusercontent.com/Sertex-Team/SertexSecurity/master/security.lua")
 
 	local startup = fs.open("/startup", "w")
