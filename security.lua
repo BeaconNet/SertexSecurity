@@ -266,7 +266,7 @@ function lock()
 	local username = read()
 	
 	if not fs.exists(".sertexsecurity/udb/"..username) then
-		print("Unknkow Username")
+		print(" Unknkown Username")
 		sleep(1.5)
 		lock()
 	end
@@ -324,7 +324,7 @@ function door()
 
 	
 	term.setTextColor( pass )
-	write("Insert Password: ")
+	write(" Insert Password: ")
 	term.setTextColor( inputpw )
 	local input = read("*")
 	
@@ -345,7 +345,7 @@ function door()
 		doorSide = side.readLine()
 		side.close()
 		if os.getComputerLabel() then
-			print(" Warning: Found Label")
+			print("  Warning: Found Label")
 		end
 		
 		rs.setOutput(doorSide, true)
