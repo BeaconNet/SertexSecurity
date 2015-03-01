@@ -416,9 +416,9 @@ elseif fs.exists("/startup") and fs.exists("/startup.bak") then
   fs.move("startup", "startup.bak")
 end
 
-if fs.exists(".sertexsecurity") then
-		fs.delete(".sertexsecurity")
-end
+--if fs.exists(".sertexsecurity") then
+		--fs.delete(".sertexsecurity")
+--end
 
 fs.makeDir(".sertexsecurity")
 fs.makeDir(".sertexsecurity/udb")
