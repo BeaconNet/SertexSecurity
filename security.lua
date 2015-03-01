@@ -261,18 +261,18 @@ function lock()
 	center(2, "SertexSecurity 2.0")
 	term.setCursorPos(1, 7)
 	term.setTextColor( pass )
-	write(" Insert Username: ")
+	write("  Insert Username: ")
 	term.setTextColor( inputpw )
 	local username = read()
 	
 	if not fs.exists(".sertexsecurity/udb/"..username) then
-		print(" Unknkown Username")
+		print("  Unknkown Username")
 		sleep(1.5)
 		lock()
 	end
 	
 	term.setTextColor( pass )
-	write(" Insert Password: ")
+	write("  Insert Password: ")
 	term.setTextColor( inputpw )
 	local input = read("*")
 
@@ -297,7 +297,9 @@ function lock()
 			term.setBackgroundColor(colors.black)
 			term.clear()
 			if os.getComputerLabel() then
-				print(" Warning: Found Label")
+				term.setCursorPos(1,1)
+				term.setTextColor(colors.white)
+				print("Warning: Found Label")
 			end
 			term.setCursorPos(1,1)
 			term.setTextColor(colors.white)
@@ -306,7 +308,7 @@ function lock()
 	else
 		print""
 		term.setTextColor( wrong )
-		textutils.slowPrint(" Wrong Password!")
+		textutils.slowPrint("  Wrong Password!")
 		sleep(2)
 		lock()
 	end
@@ -320,11 +322,11 @@ function door()
 	term.setTextColor( text )
 
 	center(2, "SertexSecurity 2.0")
-	term.setCursorPos(2, 8)
+	term.setCursorPos(1, 8)
 
 	
 	term.setTextColor( pass )
-	write(" Insert Password: ")
+	write("  Insert Password: ")
 	term.setTextColor( inputpw )
 	local input = read("*")
 	
@@ -340,7 +342,7 @@ function door()
 
 	if crypt == file.readLine() then
 		sleep(0.1)
-		print(" Password Accepted")
+		print("  Password Accepted")
 		side = fs.open(".sertexsecurity/doorSide.cfg", "r")
 		doorSide = side.readLine()
 		side.close()
@@ -356,7 +358,7 @@ function door()
 	else
 		print""
 		term.setTextColor( wrong )
-		textutils.slowPrint(" Wrong Password!")
+		textutils.slowPrint("  Wrong Password!")
 		sleep(2)
 		door()
 	end
