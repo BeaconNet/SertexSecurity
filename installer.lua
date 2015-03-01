@@ -221,6 +221,27 @@ function finish()
 	os.reboot()
 end
 
+function alreadyInstalled()
+	term.setBackgroundColor(colors.white)
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setTextColor(colors.red)
+	center(2,"SertexSecurity 2")
+	center(3,"Updating...")
+	local d = http.get("https://raw.githubusercontent.com/Sertex-Team/SertexSecurity/master/security.lua")
+
+	local startup = fs.open("/startup", "w")
+	startup.write(d.readAll())
+	startup.close()
+	sleep(2)
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setTextColor( text )
+	textutils.slowPrint("Rebooting...")
+	sleep(1)
+	os.reboot()
+end
+
 function lock()
 	while true do
 		term.setBackgroundColor( bg )
@@ -361,6 +382,10 @@ function door()
 end
 
 function main()
+
+	if fs.exists("/.sertexsecurity") then
+		alreadyInstalled()
+	end
 
 	while true do
 		term.setBackgroundColor(bg)
