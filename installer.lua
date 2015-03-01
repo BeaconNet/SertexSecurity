@@ -386,6 +386,18 @@ function main()
 	if fs.exists("/.sertexsecurity") then
 		alreadyInstalled()
 	end
+	
+	
+	if fs.exists("/startup") and not fs.exists("/startup.bak") then
+		fs.move("/startup", "/startup.bak")
+	elseif fs.exists("/startup") and fs.exists("/startup.bak") then
+		fs.delete("startup.bak")
+		fs.move("startup", "startup.bak")
+	end
+
+	fs.makeDir(".sertexsecurity")
+	fs.makeDir(".sertexsecurity/udb")
+
 
 	while true do
 		term.setBackgroundColor(bg)
@@ -408,19 +420,5 @@ function main()
 			end
 		end
 end
-
-if fs.exists("/startup") and not fs.exists("/startup.bak") then
-  fs.move("/startup", "/startup.bak")
-elseif fs.exists("/startup") and fs.exists("/startup.bak") then
-  fs.delete("startup.bak")
-  fs.move("startup", "startup.bak")
-end
-
---if fs.exists(".sertexsecurity") then
-		--fs.delete(".sertexsecurity")
---end
-
-fs.makeDir(".sertexsecurity")
-fs.makeDir(".sertexsecurity/udb")
 
 main()
