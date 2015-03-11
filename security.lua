@@ -291,7 +291,7 @@ function lock()
 			st = fs.open(".sertexsecurity/autorun", "r")
 			startup = st.readLine()
 			st.close()
-			
+			os.pullEvent = oldPullEvent
 			shell.run(startup)
 		else
 			term.setBackgroundColor(colors.black)
@@ -303,6 +303,7 @@ function lock()
 			end
 			term.setCursorPos(1,1)
 			term.setTextColor(colors.white)
+			os.pullEvent = oldPullEvent
 			shell.run("rom/programs/shell")
 		end
 	else
@@ -371,6 +372,7 @@ function main()
 	
 	if not os.getComputerID() == computerID then
 		print("WARNING: Computer ID isn't correct!")
+		os.pullEvent = oldPullEvent
 		shell.run("rom/programs/shell")
 	end
 
