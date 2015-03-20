@@ -232,7 +232,24 @@ function alreadyInstalled()
 	print("SertexSecurity 2")
 	print("Updating...")
 	local d = http.get("https://raw.githubusercontent.com/Sertex-Team/SertexSecurity/master/security.lua")
-
+	
+	f = fs.open("/.sertexsecurity/mode.cfg", "r")
+	modeConfig = f.readLine()
+	f.close()
+	if fs.exists("/.sertexsecurity/side.cfg") then
+		f = fs.open("/.sertexsecurity/side.cfg
+		sideConfig = f.readLine()
+	else
+		sideConfig = "nil"
+	end
+	f.close()
+	
+	config = fs.open("/.sertexsecurity/config", "w")
+	config.write("mode = "..modeConfig)
+	config.write("\nside = "..sideConfig)
+	config.write("\nversion = "..version)
+	config.close()
+	
 	local startup = fs.open("/startup", "w")
 	startup.write(d.readAll())
 	startup.close()
