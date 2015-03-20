@@ -1,5 +1,6 @@
 --[[
-SertexSecurity 2.0 Made By Ale2610 (_Ale2610_ In Minecraft) DON'T STEAL
+	SertexSecurity 2.0 Made By Ale2610 (_Ale2610_ In Minecraft) DON'T STEAL
+	Copyright SertexSecurity by Ale2610
 ]]--
 
 
@@ -204,7 +205,7 @@ function right(y, text )
         write(text)
 end
 
-function left(y, text) --DON NOT USE!
+function left(y, text)
 	term.setCursorPos(1, y)
 	write( text )
 end
@@ -229,6 +230,8 @@ function centerInput( text )
         write( text )
         input = read("*")
 end
+
+dofile("/.sertexsecurity/config")
 
 local bg, text, pass, inputpw, wrong
 if term.isColour() then
@@ -258,7 +261,7 @@ function lock()
 	term.setCursorPos(1,1)
 	term.setTextColor( text )
 
-	center(2, "SertexSecurity 2.0")
+	center(2, "SertexSecurity "..version)
 	term.setCursorPos(1, 7)
 	term.setTextColor( pass )
 	write("  Insert Username: ")
@@ -304,7 +307,6 @@ function lock()
 				term.setTextColor(colors.white)
 				print("Warning: Found Label")
 			end
-			term.setCursorPos(1,1)
 			term.setTextColor(colors.white)
 			os.pullEvent = oldPullEvent
 			shell.run("rom/programs/shell")
@@ -347,16 +349,13 @@ function door()
 	if crypt == file.readLine() then
 		sleep(0.1)
 		print("  Password Accepted")
-		side = fs.open(".sertexsecurity/doorSide.cfg", "r")
-		doorSide = side.readLine()
-		side.close()
 		if os.getComputerLabel() then
-			print("  Warning: Found Label")
+			print("\n  Warning: Found Label")
 		end
 		
-		rs.setOutput(doorSide, true)
+		rs.setOutput(side, true)
 		sleep(2.5)
-		rs.setOutput(doorSide, false)
+		rs.setOutput(side, false)
 		door()
 	
 	else
@@ -368,27 +367,13 @@ function door()
 	end
 end
 
-function main()
-	id = fs.open(".sertexsecurity/id.cfg", "r")
-	computerID = id.readLine()
-	id.close()
-	
-	if not os.getComputerID() == computerID then
-		print("WARNING: Computer ID isn't correct!")
-		os.pullEvent = oldPullEvent
-		shell.run("rom/programs/shell")
-	end
-
-	f = fs.open(".sertexsecurity/mode.cfg", "r")
-	local mode = f.readLine()
-	f.close()
-	
+function main()	
 	if mode == "lock" then
 		lock()
 	elseif mode == "door" then
 		door()
 	else
-		print("Error on loading SertexSecurity 2.0")
+		print("Error on loading SertexSecurity "..version)
 		return
 	end
 end

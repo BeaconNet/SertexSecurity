@@ -1,5 +1,7 @@
 os.pullEvent = os.pullEventRaw
 
+version = 2.1
+
 --SHA256
 local MOD = 2^32
 local MODM = MOD-1
@@ -203,15 +205,16 @@ else
 end
 
 function finish()
-	id = fs.open(".sertexsecurity/id.cfg", "w")
-	id.write(os.getComputerID())
-	id.close()
-	
 	local d = http.get("https://raw.githubusercontent.com/Sertex-Team/SertexSecurity/master/security.lua")
 
 	local startup = fs.open("/startup", "w")
 	startup.write(d.readAll())
 	startup.close()
+	config = fs.open("/.sertexsecurity/config")
+	config.write("mode = "..modeConfig)
+	config.write("side = "..sideConfig)
+	config.write("version = "..version)
+	config.close()
 	sleep(2)
 	term.clear()
 	term.setCursorPos(1,1)
@@ -266,9 +269,6 @@ function lock()
 			local file = fs.open(".sertexsecurity/udb/"..username, "w")
 			local crypt = sha256(pw2)
 			file.write(crypt)
-			modeConfig = fs.open(".sertexsecurity/mode.cfg", "w")
-			modeConfig.write("lock")
-			modeConfig.close()
 			print""
 			print("Do you want to make another user?")
 			print("Y/N")
@@ -279,6 +279,8 @@ function lock()
 					lock()
 					break
 				elseif key == 49 then
+					modeConfig = "lock"
+					sideConfig = "nil"
 					print("Loading...")
 					finish()
 					break
@@ -291,7 +293,6 @@ function lock()
 	end
 end
 function finishSetDoor()
-	sideConfig.close()
 	print""
 	print("Loading...")
 	local setDoorSideConfig = false
@@ -338,7 +339,6 @@ function door()
 		print("[5] Right")
 		print("[6] Left")
 		
-		sideConfig = fs.open(".sertexsecurity/doorSide.cfg", "w")
 		local setDoorSideConfig = true
 		while setDoorSideConfig do
 	
@@ -346,36 +346,34 @@ function door()
 			
 			
 			if key == 2 then
-				sideConfig.write("top")
+				sideConfig = "top"
 				finishSetDoor()
 				break
 			elseif key == 3 then
-				sideConfig.write("bottom")
+				sideConfig = "bottom"
 				finishSetDoor()
 				break
 			elseif key == 4 then
-				sideConfig.write("front")
+				sideConfig = "front"
 				finishSetDoor()
 				break
 			elseif key == 5 then
-				sideConfig.write("back")
+				sideConfig = "back"
 				finishSetDoor()
 				break
 			elseif key == 6 then
-				sideConfig.write("right")
+				sideConfig = "right"
 				finishSetDoor()
 				break
 			elseif key == 7 then
-				sideConfig.write("left")
+				sideConfig = "left"
 				finishSetDoor()
 				break
 			end
 			
 		end
 
-	modeConfig = fs.open(".sertexsecurity/mode.cfg", "w")
-	modeConfig.write("door")
-	modeConfig.close()
+	modeConfig = "door"
 	finish()
 	break
 	end
