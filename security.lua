@@ -302,14 +302,15 @@ function lock()
 		else
 			term.setBackgroundColor(colors.black)
 			term.clear()
+			term.setCursorPos(1,1)
+			term.setTextColor(colors.white)
+			os.pullEvent = oldPullEvent
+			shell.run("rom/programs/shell")
 			if os.getComputerLabel() then
 				term.setCursorPos(1,1)
 				term.setTextColor(colors.white)
 				print("Warning: Found Label")
 			end
-			term.setTextColor(colors.white)
-			os.pullEvent = oldPullEvent
-			shell.run("rom/programs/shell")
 		end
 	else
 		print""
