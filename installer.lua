@@ -245,13 +245,12 @@ function alreadyInstalled()
 		else
 			sideConfig = "nil"
 		end
+		config = fs.open("/.sertexsecurity/config", "w")
+		config.write("mode = \""..modeConfig.."\"")
+		config.write("\nside = \""..sideConfig.."\"")
+		config.write("\nversion = \""..version.."\"")
+		config.close()
 	end
-	config = fs.open("/.sertexsecurity/config", "w")
-	config.write("mode = \""..modeConfig.."\"")
-	config.write("\nside = \""..sideConfig.."\"")
-	config.write("\nversion = \""..version.."\"")
-	config.close()
-	
 	local startup = fs.open("/startup", "w")
 	startup.write(d.readAll())
 	startup.close()
