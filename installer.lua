@@ -237,7 +237,7 @@ function alreadyInstalled()
 	modeConfig = f.readLine()
 	f.close()
 	if fs.exists("/.sertexsecurity/side.cfg") then
-		f = fs.open("/.sertexsecurity/side.cfg
+		f = fs.open("/.sertexsecurity/side.cfg", "r")
 		sideConfig = f.readLine()
 	else
 		sideConfig = "nil"
