@@ -343,6 +343,7 @@ function door()
 	
 	term.setTextColor( pass )
 	write("  Insert Password: ")
+	term.setCursorBlink(true)
 	local event, par, channel, reply, message, distance = os.pullEvent()
 	if event == "key" then
 		term.setTextColor( inputpw )
@@ -384,6 +385,8 @@ function door()
 			sleep(2.5)
 			rs.setOutput(side, false)
 		end
+		door()
+	else
 		door()
 	end
 end
