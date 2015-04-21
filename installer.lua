@@ -1,6 +1,6 @@
 os.pullEvent = os.pullEventRaw
 
-version = 2.1
+version = 2.2
 
 --SHA256
 local MOD = 2^32

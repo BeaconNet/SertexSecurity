@@ -1,5 +1,5 @@
 --[[
-	SertexSecurity 2.0 Made By Ale2610 (_Ale2610_ In Minecraft) DON'T STEAL
+	SertexSecurity 2.2 Made By Ale2610 (Ale2610 In Minecraft) DON'T STEAL
 	Copyright SertexSecurity by Ale2610
 ]]--
 
@@ -323,47 +323,67 @@ function lock()
 end
 
 function door()
+	local periList = peripheral.getNames()
+	
+	for i = 1, #periList do
+		if peripheral.getType(periList[i]) == "modem" then
+			local modem = peripheral.wrap(periList[i])
+			modem.open(65510)
+		end
+	end
+	
 	term.setBackgroundColor( bg )
 	term.clear()
 	term.setCursorPos(1,1)
 	term.setTextColor( text )
 
-	center(2, "SertexSecurity 2.0")
+	center(2, "SertexSecurity 2.2")
 	term.setCursorPos(1, 8)
 
 	
 	term.setTextColor( pass )
 	write("  Insert Password: ")
-	term.setTextColor( inputpw )
-	local input = read("*")
+	local event, par, reply, message, distance = os.pullEvent()
+	if event == "key" then
+		term.setTextColor( inputpw )
+		local input = read("*")
 	
-	if input == ".update" then
-		shell.run("pastebin run Qcw6bZrA")
-		return
-	end
-
-	local file = fs.open(".sertexsecurity/.password", "r")
-
-	local crypt = sha256(input)
-
-
-	if crypt == file.readLine() then
-		sleep(0.1)
-		print("  Password Accepted")
-		if os.getComputerLabel() then
-			print("\n  Warning: Found Label")
+		if input == ".update" then
+			shell.run("pastebin run Qcw6bZrA")
+			return
 		end
+
+		local file = fs.open(".sertexsecurity/.password", "r")
+
+		local crypt = sha256(input)
+
+
+		if crypt == file.readLine() then
+			sleep(0.1)
+			print("  Password Accepted")
+			if os.getComputerLabel() then
+				print("\n  Warning: Found Label")
+			end
 		
-		rs.setOutput(side, true)
-		sleep(2.5)
-		rs.setOutput(side, false)
-		door()
+			rs.setOutput(side, true)
+			sleep(2.5)
+			rs.setOutput(side, false)
+			door()
 	
-	else
-		print""
-		term.setTextColor( wrong )
-		textutils.slowPrint("  Wrong Password!")
-		sleep(2)
+		else
+			print""
+			term.setTextColor( wrong )
+			textutils.slowPrint("  Wrong Password!")
+			sleep(2)
+			door()
+		end
+	elseif event == "modem_message" then
+		local file = fs.open(".sertexsecurity/.password", "r")
+		if message == file.readLine() then
+			rs.setOutput(side, true)
+			sleep(2.5)
+			rs.setOutput(side, false)
+		end
 		door()
 	end
 end
