@@ -343,7 +343,7 @@ function door()
 	
 	term.setTextColor( pass )
 	write("  Insert Password: ")
-	local event, par, reply, message, distance = os.pullEvent()
+	local event, par, channel, reply, message, distance = os.pullEvent()
 	if event == "key" then
 		term.setTextColor( inputpw )
 		local input = read("*")
