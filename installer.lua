@@ -397,6 +397,34 @@ function door()
 	end
 end
 
+function remote()
+	local d = http.get("https://raw.githubusercontent.com/Sertex-Team/SertexSecurity/master/controller.lua")
+	
+	term.setBackgroundColor(bg)
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setTextColor(text)
+	print("SertexSecurity SETUP")
+	term.setTextColor(pass)
+	write("Host ID: ")
+	term.setTextColor(inputpw)
+	local id = read()
+	
+	local f = fs.open("/.sertexsecurity/.id", "w")
+	f.write(id)
+	f.close()
+	
+	local f = fs.open("sscontrol", "w")
+	f.write(d.readAll())
+	f.close()
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setTextColor(text)
+	print("Rebooting...")
+	sleep(1)
+	os.reboot()
+end
+
 function main()
 
 	if fs.exists("/.sertexsecurity") then
@@ -424,6 +452,7 @@ function main()
 		print("Choose the option")
 		print("[1] Lock Computer")
 		print("[2] Lock Door")
+		print("[3] Door Remote Controller")
 		local id, key = os.pullEvent("key")
 			if key == 2 then
 				sleep(0.1)
@@ -432,6 +461,9 @@ function main()
 			elseif key == 3 then
 				sleep(0.1)
 				door()
+				break
+			elseif key == 4 then
+				remote()
 				break
 			end
 		end

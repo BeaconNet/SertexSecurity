@@ -1,12 +1,3 @@
---[[
-	SertexSecurity 2.2 Made By Ale2610 (Ale2610 In Minecraft) DON'T STEAL
-	Copyright SertexSecurity by Ale2610
-]]--
-
-
-oldPullEvent = os.pullEvent
-os.pullEvent = os.pullEventRaw
-
 --SHA256
 local MOD = 2^32
 local MODM = MOD-1
@@ -194,45 +185,6 @@ end
 
 --END SHA256
 
---SertexAPI Edited
-
---SertexAPI by Ale2610
---1.0
-
-function right(y, text )
-        w, h = term.getSize()
-        term.setCursorPos(w - #text, y)
-        write(text)
-end
-
-function left(y, text)
-	term.setCursorPos(1, y)
-	write( text )
-end
-
-function center(y, text )
-        local w, h = term.getSize()
-        term.setCursorPos((w - #text) / 2, y)
-        write(text)
-end
-
-function centerDisplay( text )
-        local x, y = term.getSize()
-        term.setCursorPos(( x - string.len(text)) / 2, y / 2)
-        write( text )
-end
-
---END SertexAPI
-
-function centerInput( text )
-        local x, y = term.getSize()
-        term.setCursorPos(( x - string.len(text)) / 2, y / 2)
-        write( text )
-        input = read("*")
-end
-
-dofile("/.sertexsecurity/config")
-
 local bg, text, pass, inputpw, wrong
 if term.isColour() then
   bg = colors.white
@@ -248,162 +200,45 @@ else
   wrong = colors.white
 end
 
+local function clear()
+	term.setBackgroundColor(bg)
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setTextColor(text)
+end
 
-if not fs.exists(".sertexsecurity") then
-  error("Password doesn't exists")
+local list = peripheral.getNames()
+
+local modems = {}
+
+for i = 1, #list do
+	if peripheral.getType(list[i]) == "modem" then
+		table.insert(modems, list[i])
+	end
+end
+
+if #modems < 1 then
+	print("Modem Not Found")
 	return
 end
 
-function lock()
-	shell.setAlias("lock", "startup")
-	term.setBackgroundColor( bg )
-	term.clear()
-	term.setCursorPos(1,1)
-	term.setTextColor( text )
+local modem = peripheral.find("modem")
 
-	center(2, "SertexSecurity "..version)
-	term.setCursorPos(1, 7)
-	term.setTextColor( pass )
-	write("  Insert Username: ")
-	term.setTextColor( inputpw )
-	local username = read()
+local f = fs.open("/.sertexsecurity/.id", "r")
+local hostID = f.readLine()
+f.close()
+
+clear()
+while true do
+	print("SertexSecurity 2.2 Controller for doors")
+	term.setTextColor(pass)
+	write("Password: ")
+	term.setTextColor(inputpw)
+	local pw = read("*")
 	
-	if username == ".update" then
-		shell.run("pastebin run Qcw6bZrA")
-	end
-	if not fs.exists(".sertexsecurity/udb/"..username) then
-		print("  Unknkown Username")
-		sleep(1.5)
-		lock()
-	end
-	
-	term.setTextColor( pass )
-	write("  Insert Password: ")
-	term.setTextColor( inputpw )
-	local input = read("*")
-
-	local file = fs.open(".sertexsecurity/udb/"..username, "r")
-
-	local crypt = sha256(input)
-
-
-	if crypt == file.readLine() then
-		sleep(0.1)
-		if fs.exists(".sertexsecurity/autorun") then
-			term.setBackgroundColor(colors.black)
-			term.setTextColor(colors.white)
-			term.clear()
-			term.setCursorPos(1,1)
-			st = fs.open(".sertexsecurity/autorun", "r")
-			startup = st.readLine()
-			st.close()
-			os.pullEvent = oldPullEvent
-			shell.run(startup)
-		else
-			term.setBackgroundColor(colors.black)
-			term.clear()
-			term.setCursorPos(1,1)
-			term.setTextColor(colors.white)
-			os.pullEvent = oldPullEvent
-			shell.run("rom/programs/shell")
-			if os.getComputerLabel() then
-				term.setCursorPos(1,1)
-				term.setTextColor(colors.white)
-				print("Warning: Found Label")
-			end
-		end
-	else
-		print""
-		term.setTextColor( wrong )
-		textutils.slowPrint("  Wrong Password!")
-		sleep(2)
-		lock()
-	end
-	
+	modem.transmit(65510, hostID, sha256(pass))
+	modem.close(65510)
+	break
 end
 
-function door()
-	local periList = peripheral.getNames()
-	
-	for i = 1, #periList do
-		if peripheral.getType(periList[i]) == "modem" then
-			local modem = peripheral.wrap(periList[i])
-			modem.open(65510)
-		end
-	end
-	
-	term.setBackgroundColor( bg )
-	term.clear()
-	term.setCursorPos(1,1)
-	term.setTextColor( text )
-
-	center(2, "SertexSecurity 2.2")
-	term.setCursorPos(1, 8)
-
-	
-	term.setTextColor( pass )
-	write("  Insert Password: ")
-	term.setCursorBlink(true)
-	local event, par, channel, reply, message, distance = os.pullEvent()
-	if event == "key" then
-		term.setTextColor( inputpw )
-		local input = read("*")
-	
-		if input == ".update" then
-			shell.run("pastebin run Qcw6bZrA")
-			return
-		end
-
-		local file = fs.open(".sertexsecurity/.password", "r")
-
-		local crypt = sha256(input)
-
-
-		if crypt == file.readLine() then
-			sleep(0.1)
-			print("  Password Accepted")
-			if os.getComputerLabel() then
-				print("\n  Warning: Found Label")
-			end
-		
-			rs.setOutput(side, true)
-			sleep(2.5)
-			rs.setOutput(side, false)
-			door()
-	
-		else
-			print""
-			term.setTextColor( wrong )
-			textutils.slowPrint("  Wrong Password!")
-			sleep(2)
-			door()
-		end
-	elseif event == "modem_message" then
-		if reply == os.getComputerID() then
-			local file = fs.open(".sertexsecurity/.password", "r")
-			if message == file.readLine() then
-				rs.setOutput(side, true)
-				sleep(2.5)
-				rs.setOutput(side, false)
-			end
-		end
-		door()
-	else
-		door()
-	end
-end
-
-function main()	
-	if mode == "lock" then
-		lock()
-	elseif mode == "door" then
-		door()
-	else
-		print("Error on loading SertexSecurity "..version)
-		return
-	end
-end
-
-
-
-main()
+return
