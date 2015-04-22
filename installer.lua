@@ -453,7 +453,7 @@ function main()
 		print("Choose the option")
 		print("[1] Lock Computer")
 		print("[2] Lock Door")
-		print("[3] Door Remote Controller")
+		--print("[3] Door Remote Controller")
 		local id, key = os.pullEvent("key")
 			if key == 2 then
 				sleep(0.1)
@@ -463,9 +463,9 @@ function main()
 				sleep(0.1)
 				door()
 				break
-			elseif key == 4 then
-				remote()
-				break
+			--elseif key == 4 then
+				--remote()
+				--break
 			end
 		end
 end
