@@ -398,6 +398,7 @@ function door()
 end
 
 function remote()
+	fs.move("/startup.bak", "/startup")
 	local d = http.get("https://raw.githubusercontent.com/Sertex-Team/SertexSecurity/master/controller.lua")
 	
 	term.setBackgroundColor(bg)

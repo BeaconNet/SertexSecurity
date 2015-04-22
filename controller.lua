@@ -224,12 +224,11 @@ end
 
 local modem = peripheral.find("modem")
 
-local f = fs.open("/.sertexsecurity/.id", "r")
-local hostID = f.readLine()
-f.close()
-
 clear()
 while true do
+	local f = fs.open("/.sertexsecurity/.id", "r")
+	local hostID = f.readLine()
+	f.close()
 	print("SertexSecurity 2.2 Controller for doors")
 	term.setTextColor(pass)
 	write("Password: ")
