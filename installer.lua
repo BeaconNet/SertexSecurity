@@ -1,4 +1,4 @@
-time toos.pullEvent = os.pullEventRaw
+os.pullEvent = os.pullEventRaw
 
 version = 2.2
 
@@ -258,6 +258,9 @@ function alreadyInstalled()
 	term.setTextColor(text)
 	print("SertexSecurity 2")
 	print("Updating...")
+	w, h = term.getSize()
+	term.setCursorPos(1,h)
+	left("SertexSecurity By Ale2610")
 	local d = http.get("https://raw.githubusercontent.com/Sertex-Team/SertexSecurity/master/security.lua")
 	if fs.exists("/.sertexsecurity/mode.cfg") then
 		f = fs.open("/.sertexsecurity/mode.cfg", "r")
@@ -294,6 +297,9 @@ function lock()
 	while true do
 		term.setBackgroundColor( bg )
 		term.clear()
+		w, h = term.getSize()
+		term.setCursorPos(1,h)
+		left("SertexSecurity By Ale2610")
 		term.setCursorPos(1,1)
 		term.setTextColor( text )
 		print("SertexSecurity SETUP")
@@ -348,6 +354,9 @@ function door()
 	while true do
 		term.setBackgroundColor( bg )
 		term.clear()
+		w, h = term.getSize()
+		term.setCursorPos(1,h)
+		left("SertexSecurity By Ale2610")
 		term.setCursorPos(1,1)
 		term.setTextColor( text )
 	
