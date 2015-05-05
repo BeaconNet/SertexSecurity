@@ -1,4 +1,4 @@
-os.pullEvent = os.pullEventRaw
+time toos.pullEvent = os.pullEventRaw
 
 version = 2.2
 
@@ -197,11 +197,11 @@ if term.isColour() then
   inputpw = colors.green
   wrong = colors.red
 else
-  bg = colors.black
-  text = colors.white
-  pass = colors.white
-  inputpw = colors.white
-  wrong = colors.white
+  bg = colors.white
+  text = colors.black
+  pass = colors.black
+  inputpw = colors.black
+  wrong = colors.black
 end
 
 function finish()
@@ -225,10 +225,10 @@ function finish()
 end
 
 function alreadyInstalled()
-	term.setBackgroundColor(colors.white)
+	term.setBackgroundColor(bg)
 	term.clear()
 	term.setCursorPos(1,1)
-	term.setTextColor(colors.red)
+	term.setTextColor(text)
 	print("SertexSecurity 2")
 	print("Updating...")
 	local d = http.get("https://raw.githubusercontent.com/Sertex-Team/SertexSecurity/master/security.lua")
