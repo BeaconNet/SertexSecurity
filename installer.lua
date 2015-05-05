@@ -217,7 +217,6 @@ end
 
 -- end sapi
 
-local bg, text, pass, inputpw, wrong
 if term.isColour() then
   bg = colors.white
   text = colors.red
