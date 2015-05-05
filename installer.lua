@@ -253,15 +253,12 @@ function finish()
 end
 
 function alreadyInstalled()
-	w, h = term.getSize()
 	term.setBackgroundColor(bg)
 	term.clear()
 	term.setCursorPos(1,1)
 	term.setTextColor(text)
 	print("SertexSecurity 2")
 	print("Updating...")
-	term.setCursorPos(1,h)
-	left("SertexSecurity by Ale2610")
 	local d = http.get("https://raw.githubusercontent.com/Sertex-Team/SertexSecurity/master/security.lua")
 	if fs.exists("/.sertexsecurity/mode.cfg") then
 		f = fs.open("/.sertexsecurity/mode.cfg", "r")
