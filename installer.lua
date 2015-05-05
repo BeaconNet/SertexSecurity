@@ -189,6 +189,34 @@ end
 
 --END SHA256
 
+--SertexAPI by Ale2610
+--1.0
+
+function right(y, text )
+        w, h = term.getSize()
+        term.setCursorPos(w - #text, y)
+        write(text)
+end
+
+function left(y, text)
+	term.setCursorPos(1, y)
+	write( text )
+end
+
+function center(y, text )
+        local w, h = term.getSize()
+        term.setCursorPos((w - #text) / 2, y)
+        write(text)
+end
+
+function centerDisplay( text )
+        local x, y = term.getSize()
+        term.setCursorPos(( x - string.len(text)) / 2, y / 2)
+        write( text )
+end
+
+-- end sapi
+
 local bg, text, pass, inputpw, wrong
 if term.isColour() then
   bg = colors.white
@@ -225,12 +253,15 @@ function finish()
 end
 
 function alreadyInstalled()
+	w, h = term.getSize()
 	term.setBackgroundColor(bg)
 	term.clear()
 	term.setCursorPos(1,1)
 	term.setTextColor(text)
 	print("SertexSecurity 2")
 	print("Updating...")
+	term.setCursorPos(1,h)
+	left("SertexSecurity by Ale2610")
 	local d = http.get("https://raw.githubusercontent.com/Sertex-Team/SertexSecurity/master/security.lua")
 	if fs.exists("/.sertexsecurity/mode.cfg") then
 		f = fs.open("/.sertexsecurity/mode.cfg", "r")
