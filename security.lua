@@ -241,11 +241,11 @@ if term.isColour() then
   inputpw = colors.green
   wrong = colors.red
 else
-  bg = colors.black
-  text = colors.white
-  pass = colors.white
-  inputpw = colors.white
-  wrong = colors.white
+  bg = colors.white
+  text = colors.black
+  pass = colors.black
+  inputpw = colors.black
+  wrong = colors.black
 end
 
 
