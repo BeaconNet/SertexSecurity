@@ -264,7 +264,7 @@ function lock()
 	center(2, "SertexSecurity "..version)
 	term.setCursorPos(1, 7)
 	term.setTextColor( pass )
-	write("  Insert Username: ")
+	write("  Username: ")
 	term.setTextColor( inputpw )
 	local username = read()
 	
@@ -278,7 +278,7 @@ function lock()
 	end
 	
 	term.setTextColor( pass )
-	write("  Insert Password: ")
+	write("  Password: ")
 	term.setTextColor( inputpw )
 	local input = read("*")
 
