@@ -254,7 +254,7 @@ if not fs.exists(".sertexsecurity") then
 	return
 end
 
-function lock()
+local function lock()
 	shell.setAlias("lock", "startup")
 	term.setBackgroundColor( bg )
 	term.clear()
@@ -271,7 +271,7 @@ function lock()
 	if username == ".update" then
 		shell.run("pastebin run Qcw6bZrA")
 	end
-	if not fs.exists(".sertexsecurity/udb/"..username) then
+	if username == "" or not fs.exists(".sertexsecurity/udb/"..username) then
 		print("  Unknkown Username")
 		sleep(1.5)
 		lock()
@@ -281,7 +281,15 @@ function lock()
 	write("  Password: ")
 	term.setTextColor( inputpw )
 	local input = read("*")
-
+	
+	if input == "" then
+		print("")
+		term.setTextColor( wrong )
+		textutils.slowPrint("  Wrong Password!")
+		sleep(2)
+		lock()
+	end
+	
 	local file = fs.open(".sertexsecurity/udb/"..username, "r")
 
 	local crypt = sha256(input)
@@ -294,7 +302,7 @@ function lock()
 			term.setTextColor(colors.white)
 			term.clear()
 			term.setCursorPos(1,1)
-			st = fs.open(".sertexsecurity/autorun", "r")
+			local st = fs.open(".sertexsecurity/autorun", "r")
 			startup = st.readLine()
 			st.close()
 			os.pullEvent = oldPullEvent
@@ -313,7 +321,7 @@ function lock()
 			end
 		end
 	else
-		print""
+		print("")
 		term.setTextColor( wrong )
 		textutils.slowPrint("  Wrong Password!")
 		sleep(2)
@@ -322,7 +330,7 @@ function lock()
 	
 end
 
-function door()
+local function door()
 	local periList = peripheral.getNames()
 	
 	for i = 1, #periList do
@@ -393,7 +401,7 @@ function door()
 	end
 end
 
-function main()	
+local function main()	
 	if mode == "lock" then
 		lock()
 	elseif mode == "door" then
