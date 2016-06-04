@@ -205,7 +205,7 @@ else
 end
 
 function finish()
-	local d = http.get("https://raw.githubusercontent.com/Sertex-Team/SertexSecurity/master/security.lua")
+	local d = http.get("https://raw.githubusercontent.com/BeaconNet/SertexSecurity/master/security.lua")
 
 	local startup = fs.open("/startup", "w")
 	startup.write(d.readAll())
@@ -231,7 +231,7 @@ function alreadyInstalled()
 	term.setTextColor(text)
 	print("SertexSecurity 2")
 	print("Updating...")
-	local d = http.get("https://raw.githubusercontent.com/Sertex-Team/SertexSecurity/master/security.lua")
+	local d = http.get("https://raw.githubusercontent.com/BeaconNet/SertexSecurity/master/security.lua")
 	if fs.exists("/.sertexsecurity/mode.cfg") then
 		f = fs.open("/.sertexsecurity/mode.cfg", "r")
 		modeConfig = f.readLine()
@@ -399,7 +399,7 @@ end
 
 function remote()
 	fs.move("/startup.bak", "/startup")
-	local d = http.get("https://raw.githubusercontent.com/Sertex-Team/SertexSecurity/master/controller.lua")
+	local d = http.get("https://raw.githubusercontent.com/BeaconNet/SertexSecurity/master/controller.lua")
 	
 	term.setBackgroundColor(bg)
 	term.clear()
